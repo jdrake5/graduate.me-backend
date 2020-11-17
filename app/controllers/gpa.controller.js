@@ -12,11 +12,11 @@ exports.create = (req, res) => {
   // Create a gpa
   const gpa = new Gpa({
     crn: req.body.crn,
-    subject: gpa.subject,
-    number: gpa.number,
-    title: gpa.title,
-    section: gpa.section,
-    average: gpa.average,
+    subject: req.body.subject,
+    number: req.body.number,
+    title: req.body.title,
+    section: req.body.section,
+    average: req.body.average,
   });
 
   // Save gpa in the database

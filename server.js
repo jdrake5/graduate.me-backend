@@ -17,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 require("./app/routes/user.routes.js")(app);
 require("./app/routes/course.routes.js")(app);
+require("./app/routes/gpa.routes.js")(app);
 
 // set port, listen for requests
 app.listen(3000, () => {
