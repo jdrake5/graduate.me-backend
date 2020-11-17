@@ -1,4 +1,4 @@
-const schedule = require("../models/schedule.model.js");
+const Schedule = require("../models/schedule.model.js");
 
 // Create and Save a new schedule
 exports.create = (req, res) => {
@@ -10,14 +10,14 @@ exports.create = (req, res) => {
   }
   
   // Create a schedule
-  const schedule = new schedule({
+  const Schedule = new Schedule({
     username: req.body.username,
     schedule_name: req.body.schedule_name,
     crn: req.body.crn
   });
   
   // Save schedule in the database
-  User.create(schedule, (err, data) => {
+  Schedule.create(Schedule, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -29,7 +29,7 @@ exports.create = (req, res) => {
 
 // Retrieve all schedule from the database.
 exports.findAll = (req, res) => {
-  schedule.getAll((err, data) => {
+  Schedule.getAll((err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -41,7 +41,7 @@ exports.findAll = (req, res) => {
 
 // Find a single user with a username
 exports.findOne = (req, res) => {
-  schedule.findById(req.params.username, (err, data) => {
+  Schedule.findById(req.params.username, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -66,9 +66,9 @@ exports.update = (req, res) => {
   }
   
   
-  schedule.updateById(
+  Schedule.updateById(
     req.params.username,
-    new schedule(req.body),
+    new Schedule(req.body),
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
@@ -87,7 +87,7 @@ exports.update = (req, res) => {
 
 // Delete a schedule with the specified username in the request
 exports.delete = (req, res) => {
-  schedule.remove(req.params.username, (err, data) => {
+  Schedule.remove(req.params.username, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
