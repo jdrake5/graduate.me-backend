@@ -18,4 +18,7 @@ module.exports = app => {
 
   // Create a new course
   app.delete("/courses", courses.deleteAll);
+
+  // Attempt complex query
+  app.get("/complex", courses.complexQ);
 };
