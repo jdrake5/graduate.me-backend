@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
 
 app.get("/search/:search_term", (request, res) => {
   console.log("request", request.params.search_term);
-  var query = { Subject: request.params.search_term };
+  var query = {$or: [{Subject: request.params.search_term}, {Description: { $regex: ".*" + request.params.search_term + ".*"}}, {Name: { $regex: ".*" + request.params.search_term + ".*"}}] };
   collection.find(query).toArray(function(err, result) {
     if(err) {
         return res.status(500).send(err);
