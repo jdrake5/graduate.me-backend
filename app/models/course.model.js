@@ -123,4 +123,17 @@ Course.removeAll = result => {
   });
 };
 
+Course.complexQuery = (genEds, result) => {
+    sql.query(`SELECT * FROM Courses NATURAL JOIN Gpa`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        console.log("Courses: ", res);
+        result(null, res);
+    });
+};
+
 module.exports = Course;

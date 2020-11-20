@@ -107,4 +107,4 @@ schedule.removeAll = result => {
   });
 };
 
-module.exports = schedule;s
+module.exports = schedules;

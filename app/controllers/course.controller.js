@@ -128,3 +128,14 @@ exports.deleteAll = (req, res) => {
     else res.send({ message: `All courses were deleted successfully!` });
   });
 };
+
+exports.findRequired = (req, res) => {
+    Course.complexQuery((err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving courses."
+            });
+        else res.send(data);
+    });
+};
