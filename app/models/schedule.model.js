@@ -1,13 +1,13 @@
 const sql = require("./db.js");
 
 // constructor
-const schedule = function(schedule) {
+const Schedule = function(Schedule) {
   this.schedule_name = user.schedule_name;
   this.username = user.username;
   this.crn = user.crn;
 };
 
-schedule.create = (newUser, result) => {
+Schedule.create = (newUser, result) => {
   sql.query("INSERT INTO schedule SET ?", newschedule, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -20,7 +20,7 @@ schedule.create = (newUser, result) => {
   });
 };
 
-schedule.findById = (username, result) => {
+Schedule.findById = (username, result) => {
   sql.query(`SELECT * FROM schedule WHERE username = ${username}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -39,7 +39,7 @@ schedule.findById = (username, result) => {
   });
 };
 
-schedule.getAll = result => {
+Schedule.getAll = result => {
   sql.query("SELECT * FROM schedule", (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -52,10 +52,10 @@ schedule.getAll = result => {
   });
 };
 
-schedule.updateById = (id, user, result) => {
+Schedule.updateById = (id, user, result) => {
   sql.query(
     "UPDATE schedule SET schedule_name = ?, username = ?, crn = ? WHERE username = ?",
-    [schedule.schedule_name, schedule.username, schedule.crn, id],
+    [Schedule.schedule_name, Schedule.username, Schedule.crn, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -69,13 +69,13 @@ schedule.updateById = (id, user, result) => {
         return;
       }
 
-      console.log("updated schedule: ", { id: id, ...schedule});
-      result(null, { id: id, ...schedule });
+      console.log("updated schedule: ", { id: id, ...Schedule});
+      result(null, { id: id, ...Schedule });
     }
   );
 };
 
-schedule.remove = (id, result) => {
+Schedule.remove = (id, result) => {
   sql.query("DELETE FROM schedule WHERE username = ?", id, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -94,7 +94,7 @@ schedule.remove = (id, result) => {
   });
 };
 
-schedule.removeAll = result => {
+Schedule.removeAll = result => {
   sql.query("DELETE FROM schedule", (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -102,9 +102,9 @@ schedule.removeAll = result => {
       return;
     }
 
-    console.log(`deleted ${res.affectedRows} Uschedule`);
+    console.log(`deleted ${res.affectedRows} schedule`);
     result(null, res);
   });
 };
 
-module.exports = schedule;s
+module.exports = Schedule;s
