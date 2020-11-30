@@ -27,7 +27,8 @@ app.listen(3000, () => {
           throw error;
       }
       database = client.db(DATABASE_NAME);
-      collection = database.collection("Classes");
+      collection_classes = database.collection("Classes");
+      collection_favorites = database.collection("Favorites");
       console.log("Connected to `" + DATABASE_NAME + "`!");
   });
 });
@@ -39,11 +40,42 @@ app.get("/", (req, res) => {
 
 app.get("/search/:search_term", (request, res) => {
   console.log("request", request.params.search_term);
-  var query = {$or: [{Subject: request.params.search_term}, {Description: { $regex: ".*" + request.params.search_term + ".*"}}, {Name: { $regex: ".*" + request.params.search_term + ".*"}}] };
-  collection.find(query).toArray(function(err, result) {
+  var query = {$or: [{Subject: { $regex: ".*" + request.params.search_term + ".*", $options: 'i'}}, {Description: { $regex: ".*" + request.params.search_term + ".*", $options: 'i'}}, {Name: { $regex: ".*" + request.params.search_term + ".*", $options: 'i'}}] };
+  collection_classes.find(query).toArray(function(err, result) {
     if(err) {
         return res.status(500).send(err);
     }
+    res.status(200)
+    res.header("Access-Control-Allow-Origin", "*");
+    res.send(result);
+  });
+});
+
+app.get("/favorites/:user", (request, res) => {
+  console.log("request", request.params.user);
+  var query = {};
+  collection_favorites.find(query).toArray(function(err, result) {
+    if(err) {
+        return res.status(500).send(err);
+    }
+    res.status(200)
+    res.header("Access-Control-Allow-Origin", "*");
+    res.send(result);
+  });
+});
+
+app.post("/add_favorite", (request, res) => {
+  const row = {
+    Username: request.body.Username,
+    Subject: request.body.Subject,
+    Number: request.body.Number,
+    Sub_Num: request.body.Sub_Num
+  };
+  collection_favorites.insertOne(row, function(err, result) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    console.log("1 document inserted");
     res.status(200)
     res.header("Access-Control-Allow-Origin", "*");
     res.send(result);
