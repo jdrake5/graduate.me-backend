@@ -53,11 +53,25 @@ app.get("/search/:search_term", (request, res) => {
 
 app.get("/favorites/:user", (request, res) => {
   console.log("request", request.params.user);
-  var query = {};
+  var query = {Username: request.params.user};
   collection_favorites.find(query).toArray(function(err, result) {
     if(err) {
         return res.status(500).send(err);
     }
+    res.status(200)
+    res.header("Access-Control-Allow-Origin", "*");
+    res.send(result);
+  });
+});
+
+app.get("/remove_favorite/:user/:class", (request, res) => {
+  console.log("request", request.params.user);
+  var query = {$and: [{Username: request.params.user}, {Sub_Num: request.params.class}]};
+  collection_favorites.remove(query, function(err, result) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    console.log("1 document removed");
     res.status(200)
     res.header("Access-Control-Allow-Origin", "*");
     res.send(result);
